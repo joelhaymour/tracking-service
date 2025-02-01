@@ -52,13 +52,12 @@ class ShopifyService {
                 };
             }
 
-            // If not delivered, return shipping details
+            // If not delivered, return shipping details without current location
             return {
                 status: 'shipped',
                 carrier: fulfillment.tracking_company,
                 trackingNumber: fulfillment.tracking_number,
-                trackingUrl: fulfillment.tracking_url,
-                currentLocation: fulfillment.current_location || 'In transit'
+                trackingUrl: fulfillment.tracking_url
             };
         } catch (error) {
             console.error('Shopify service error:', error);
