@@ -58,8 +58,7 @@ class ShopifyService {
                 carrier: fulfillment.tracking_company,
                 trackingNumber: fulfillment.tracking_number,
                 trackingUrl: fulfillment.tracking_url,
-                currentLocation: fulfillment.current_location || 'In transit',
-                expectedDelivery: fulfillment.estimated_delivery_at || 'Date not available'
+                currentLocation: fulfillment.current_location || 'In transit'
             };
         } catch (error) {
             console.error('Shopify service error:', error);
