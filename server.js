@@ -17,7 +17,7 @@ app.use(cors({
 console.log('Allowed Origin:', process.env.ALLOWED_ORIGIN);
 
 app.use(express.json());
-app.use('/', trackingRoutes);
+app.use('/track-order', trackingRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
