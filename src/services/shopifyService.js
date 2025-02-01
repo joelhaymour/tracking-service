@@ -22,7 +22,7 @@ class ShopifyService {
             }
 
             const order = orders[0];
-            console.log('Order status:', order.fulfillment_status);
+            console.log('Full order data:', order);
             
             // Check fulfillment status
             if (!order.fulfillments || !order.fulfillments.length) {
@@ -33,23 +33,33 @@ class ShopifyService {
             }
 
             const fulfillment = order.fulfillments[0];
-            console.log('Fulfillment:', fulfillment);
+            console.log('Fulfillment status:', fulfillment.status);
 
-            if (fulfillment.status === 'delivered') {
+            // Check for delivered status in multiple ways
+            const isDelivered = 
+                fulfillment.status === 'delivered' || 
+                order.fulfillment_status === 'delivered' ||
+                fulfillment.shipment_status === 'delivered' ||
+                order.status === 'delivered';
+
+            if (isDelivered) {
                 return {
                     status: 'delivered',
-                    deliveryDate: fulfillment.delivery_date,
-                    deliveryLocation: fulfillment.tracking_company
+                    deliveryDate: fulfillment.delivery_date || order.delivered_at || fulfillment.updated_at,
+                    deliveryLocation: fulfillment.tracking_company,
+                    trackingNumber: fulfillment.tracking_number,
+                    trackingUrl: fulfillment.tracking_url
                 };
             }
 
+            // If not delivered, return shipping details
             return {
                 status: 'shipped',
                 carrier: fulfillment.tracking_company,
                 trackingNumber: fulfillment.tracking_number,
                 trackingUrl: fulfillment.tracking_url,
                 currentLocation: fulfillment.current_location || 'In transit',
-                expectedDelivery: fulfillment.estimated_delivery_at
+                expectedDelivery: fulfillment.estimated_delivery_at || 'Date not available'
             };
         } catch (error) {
             console.error('Shopify service error:', error);
