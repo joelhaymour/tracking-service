@@ -19,7 +19,7 @@ console.log('Allowed Origin:', process.env.ALLOWED_ORIGIN);
 
 app.use(express.json());
 app.use('/track-order', trackingRoutes);
-app.use('/collaborate', collaborationRoutes);
+app.use('/api/collaborate', collaborationRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
