@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const trackingRoutes = require('./src/routes/tracking');
 const collaborationRoutes = require('./src/routes/collaboration');
+const chatRoutes = require('./src/routes/chat');
 
 const app = express();
 
@@ -20,6 +21,7 @@ console.log('Allowed Origin:', process.env.ALLOWED_ORIGIN);
 app.use(express.json());
 app.use('/track-order', trackingRoutes);
 app.use('/api/collaborate', collaborationRoutes);
+app.use('/api/chat', chatRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
